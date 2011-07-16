@@ -1,0 +1,13 @@
+{
+  "name": "Support Notifications",
+  "version": "1.0.0",
+  "description:": "Notifies about new tickets in Zendesk and similar services",
+  "permissions": ["notifications", "http://*.zendesk.com/", "https://*.zendesk.com"],
+  "background_page": "bg.html",
+  "options_page": "options.html",
+  "browser_action": {
+    "default_icon": "lgpl/icon.png",
+    "default_title": "Support Notifications",
+    "default_popup": "master_password.html"
+  }
+}

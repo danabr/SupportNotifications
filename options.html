@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Zendesk Tickets configuration</title>
+    <script type="text/javascript" src="js/options.js"></script>
+  </head>
+  <body onload="initForms()">
+    <h1>Zendesk Tickets configuration</h1>
+    <form>
+      <fieldset>
+        <p>
+          You must specify your master password in order to save your data.
+        </p>
+        <label for="master_password">Master Password: </label>
+        <input type="password" name="master_password" id="master_password" />
+      </fieldset>
+    </form>
+    <form id="notification_form">
+      <fieldset>
+        <legend>Notifications</legend>
+          <table>
+            <tr>
+              <th>Display notifcations</th>
+              <td><input type="checkbox" name="display_notifications" value="1" /></td>
+            </tr>
+            <tr>
+              <th>Play sound</th>
+              <td><input type="checkbox" name="play_sound" value="1" /></td>
+            </tr>
+            <tr>
+              <th>Update interval (minutes)</th>
+              <td>
+                <select name="update_interval">
+                  <option>1</option>
+                  <option>2</option>
+                  <option>5</option>
+                  <option>10</option>
+                  <option>30</option>
+                  <option>60</option>
+                </select>
+              </td>
+            </tr>
+          </table>
+          <input type="submit" name="submit_button" value="Save" />
+        </fieldset>
+    </form>
+    <div id="authentication_forms"></div>
+  </body>
+</html>

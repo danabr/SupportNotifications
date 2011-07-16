@@ -1,0 +1,25 @@
+<form>
+  <fieldset>
+    <legend>{{{providerName}}} Authentiation details</legend>
+      <table>
+        <tr>
+          <th>Enable</th>
+          <td><input type="checkbox" name="enabled" value="1" {{{checked}}}/></td>
+        </tr>
+        <tr>
+          <th>Company ID</th>
+          <td><input type="text" name="company_id" value="{{{companyId}}}"/></td>
+        </tr>
+        <tr>
+          <th>Username</th>
+          <td><input type="text" name="username" value="{{{username}}}"/></td>
+        </tr>
+        <tr>
+          <th>Password</th>
+          <td><input type="password" name="password" value=""/></td>
+        </tr>
+      </table>
+      <input type="submit" name="submit_button" value="Save" />
+      <input type="button" name="test_button" value="Test" />
+    </fieldset>
+</form>

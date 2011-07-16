@@ -1,0 +1,22 @@
+SupportNotifications is a Google Chrome extension that notifies you when new tickets
+are created (or existing ones are updated) in your preferred help desk service.
+
+Currently supported services:
+  Zendesk
+  
+Services planned for:
+  getsatisfaction
+  
+Security considerations
+------------------------
+SupportNotifications uses a master password to encrypt your data on disk.
+However, after you have logged in with the master password, all credentials
+are available in clear text in the extensions memory. Anyone accessing your
+computer after you have logged in with your master password can thus find your
+usernames, passwords. You are hereby warned.
+
+TODO:
+  * Find a suitable sound for notifications
+  * Make the extension pages pleasing to the eye
+  * Add getsatisfaction support
+  * Present errors in a nice way
