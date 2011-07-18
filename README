@@ -20,3 +20,13 @@ TODO:
   * Make the extension pages pleasing to the eye
   * Add getsatisfaction support
   * Present errors in a nice way
+  
+Getting Started
+---------------
+* Download the archive.
+* Install the extension by clicking on the Chrome Wrench -> "Tools"->"Extensions", enable "Developer mode", click on "Load unpacked extension" and browse for the downloaded git archive.
+* You should now see a headphone icon beside the wrench, with a yellow banner indicating that you have not "logged in". Click on it and enter a master password that will be used to protect your credentials.
+* Click on the headphones again and select "Configure SupportNotifications". This will bring up the options page.
+* Fill in your Zendesk authentication details, as well as your master password and save your settings.
+* You can also test your authetication details bly clicking on the "Test" button.
+* A desktop notification will appear as new tickets are created, and you will be able to see the number of tickets, as well as the most recent ticket, by clicking on the headphones.
