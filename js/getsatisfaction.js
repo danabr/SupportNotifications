@@ -11,7 +11,7 @@ GetSatisfaction = {
     };
   },
 
-  getTicketStatus(): function() {
+  getTicketStatus: function() {
     var url = this._getTicketsAPIURL();
     var xhr = new XMLHttpRequest();
     xhr.open("GET", url, false);
