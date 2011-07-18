@@ -18,7 +18,7 @@ Zendesk = {
     xhr.open("GET", url, false, this.username, this.password);
     xhr.send();
     return JSON.parse(xhr.responseText).sort(function(a, b) {
-      if(a.updated_at < b.updated_at) {
+      if(a.created_at < b.created_at) {
         return 1;
       } else {
         return -1;
@@ -31,11 +31,12 @@ Zendesk = {
   },
   
   getTicketsURL: function(companyId) {
-    cmp = companyId || this.companyId;
+    var cmp = companyId || this.companyId;
     return "http://" + cmp + ".zendesk.com/rules/871014";
   },
  
   initFromForm: function(form) {
+    console.log("Initializing zendesk");
     this.enabled = form.enabled.checked;
     this.companyId = form.company_id.value;
     this.username = form.username.value;

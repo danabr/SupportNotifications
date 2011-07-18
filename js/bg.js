@@ -62,7 +62,7 @@ function saveConfig(masterPassword) {
   Private API
 */
 
-// Initial string to use for lastTicketUpdated
+// Initial string to use for lastTicketCreated
 function _defaultTicketDate() {
   function _twodigits(number) {
     if(number <= 9) { return "0" + number};
@@ -90,24 +90,24 @@ function _scheduleStatusUpdate() {
 
 function _updateProviderStatus(providerName, provider) {
   var tickets = provider.getOpenTickets();
-    //Alert about all new tickets
-    var i = tickets.length;
-    var newTickets = false;
-    var storageVar = providerName + ".lastTicketUpdated";
-    var lastTicketUpdated = localStorage[storageVar] || _defaultTicketDate();
-    while(i--) {
-      var ticket = tickets[i];
-      if (ticket.updated_at > lastTicketUpdated) {
-        if(SupportNotifications.Notifications.notifications_on) {
-          newTickets = true;
-          _notifyAboutTicket(provider, ticket);
-        }
-        lastTicketUpdated = ticket.updated_at;
+  //Alert about all new tickets
+  var newTickets = false;
+  var storageVar = providerName + ".lastTicketCreated";
+  var lastTicketCreated = localStorage[storageVar] || _defaultTicketDate();
+  var i = tickets.length;
+  while(i--) {
+    var ticket = tickets[i];
+    if (ticket.created_at > lastTicketCreated) {
+      if(SupportNotifications.Notifications.notifications_on) {
+        newTickets = true;
+        _notifyAboutTicket(provider, ticket);
       }
+      lastTicketCreated = ticket.created_at;
     }
-    localStorage[storageVar] = lastTicketUpdated;
-    Tickets[providerName] = tickets;
-    return newTickets;
+  }
+  localStorage[storageVar] = lastTicketCreated;
+  Tickets[providerName] = tickets;
+  return newTickets;
 }
 
 function _updateStatus() {

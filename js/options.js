@@ -27,38 +27,13 @@ function applyTemplate(template, dataObject) {
 
 // Creates the authentication details forms for the various providers
 function initAuthenticationDetailsForms() {
-  var formContainer = document.getElementById("authentication_forms");
   var bg = chrome.extension.getBackgroundPage();
   for(var providerName in bg.SupportNotifications.providers) {
     var provider = bg.SupportNotifications.providers[providerName];
-    var template = loadTemplate(providerName.toLowerCase() + ".template");
-    var templateData = provider.formData();
-    var formHTML = applyTemplate(template, templateData);
-    formContainer.innerHTML = formHTML;
-    
-    var form = formContainer.firstChild;
-    form.onsubmit = function() {
-      provider.initFromForm(form);
-      saveConfig();
-      return false;
-    }
-    
-    if(form.test_button !== undefined) {
-      form.test_button.onclick = function() {
-        var result = provider.testCredentials(form);
-        var info = document.getElementById("info");
-        if(result === "valid") {
-          info.innerHTML = "Successful authentication!";
-          info.className = "success";
-        } else if(result === "invalid") {
-          info.innerHTML = "Failed to authenticate!";
-          info.className = "error";
-        } else {
-          info.innerHTML = "The service seems to be unavailable at the moment.";
-          info.className = "info";
-        }
-      }
-    }
+    // Only reason we use a form here is that Chrome does not
+    // support the "let" keyword (and javascript is function scoped,
+    // not block scoped).
+    initProviderForm(providerName, provider);
   }
 }
 
@@ -81,6 +56,41 @@ function initNotificationsForm() {
     notifications.interval = form.update_interval[form.update_interval.selectedIndex].value;
     saveConfig();
     return false;
+  }
+}
+
+function initProviderForm(providerName, provider) {
+  var formContainer = document.getElementById("authentication_forms");
+  var template = loadTemplate(providerName.toLowerCase() + ".template");
+  var templateData = provider.formData();
+  var formHTML = applyTemplate(template, templateData);
+  var formWrapper = document.createElement("div");
+  formWrapper.innerHTML = formHTML;
+  formContainer.appendChild(formWrapper)
+  
+  var form = formWrapper.firstChild;
+  form.onsubmit = function() {
+    console.log(provider);
+    provider.initFromForm(form);
+    saveConfig();
+    return false;
+  }
+  
+  if(form.test_button !== undefined) {
+    form.test_button.onclick = function() {
+      var result = provider.testCredentials(form);
+      var info = document.getElementById("info");
+      if(result === "valid") {
+        info.innerHTML = "Successful authentication!";
+        info.className = "success";
+      } else if(result === "invalid") {
+        info.innerHTML = "Failed to authenticate!";
+        info.className = "error";
+      } else {
+        info.innerHTML = "The service seems to be unavailable at the moment.";
+        info.className = "info";
+      }
+    }
   }
 }
 
