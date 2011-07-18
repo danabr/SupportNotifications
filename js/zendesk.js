@@ -1,7 +1,6 @@
-if(SupportNotifications.providers.Zendesk === undefined) {
-  SupportNotifications.providers.Zendesk = 
-    new SupportNotifications.TicketProvider("Zendesk");
-};
+SupportNotifications.providers.Zendesk = 
+    new SupportNotifications.TicketProvider("Zendesk",
+    {password: "", username: "", companyId: "company"});
 
 Zendesk = {
   // Returns template data for the authentication form

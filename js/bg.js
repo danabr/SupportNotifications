@@ -11,12 +11,12 @@ SupportNotifications = {
     sound_on: true,
     notifications_on: true
   },
-  TicketProvider : function(name) {
+  TicketProvider : function(name, properties) {
     this.name = name;
-    this.companyId = "";
-    this.username = "";
-    this.password = "";
     this.enabled = false;
+    for(var propName in properties) {
+      this[propName] = properties[propName];
+    }
   }
 };
 // Non-persistent
