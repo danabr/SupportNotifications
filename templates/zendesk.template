@@ -1,6 +1,6 @@
 <form>
   <fieldset>
-    <legend>{{{providerName}}} Authentiation details</legend>
+    <legend>Zendesk Authentiation details</legend>
       <table>
         <tr>
           <td><label for="enabled">Enable</label></td>

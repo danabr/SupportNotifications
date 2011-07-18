@@ -9,7 +9,7 @@ function initForms() {
 // Fetches the contents of the resource with the given name
 function loadTemplate(name) {
   var req = new XMLHttpRequest();
-  req.open("GET", name, false);
+  req.open("GET", "templates/" + name, false);
   req.send();
   return req.responseText;
 }
@@ -25,52 +25,38 @@ function applyTemplate(template, dataObject) {
   return result;
 }
 
-// Returns template data for the authentication form
-function formData(providerName, provider) {
-  return {
-    companyId: provider.companyId,
-    checked: (provider.enabled ? "checked=\"checked\"" : ""),
-    providerName: providerName,
-    username: provider.username
-  };
-}
-
 // Creates the authentication details forms for the various providers
 function initAuthenticationDetailsForms() {
   var formContainer = document.getElementById("authentication_forms");
   var bg = chrome.extension.getBackgroundPage();
-  var template = loadTemplate("authentication_form.template");
   for(var providerName in bg.SupportNotifications.providers) {
     var provider = bg.SupportNotifications.providers[providerName];
-    var templateData = formData(providerName, provider);
+    var template = loadTemplate(providerName.toLowerCase() + ".template");
+    var templateData = provider.formData();
     var formHTML = applyTemplate(template, templateData);
     formContainer.innerHTML = formHTML;
-    var form = formContainer.firstChild;
     
+    var form = formContainer.firstChild;
     form.onsubmit = function() {
-      provider.enabled = form.enabled.checked;
-      provider.companyId = form.company_id.value;
-      provider.username = form.username.value;
-      provider.password = form.password.value;
+      provider.initFromForm(form);
       saveConfig();
       return false;
     }
     
-    form.test_button.onclick = function() {
-      var result = provider.testCredentials(
-        form.company_id.value, 
-        form.username.value, 
-        form.password.value);
-      var info = document.getElementById("info");
-      if(result === "valid") {
-        info.innerHTML = "Successful authentication!";
-        info.className = "success";
-      } else if(result === "invalid") {
-        info.innerHTML = "Failed to authenticate!";
-        info.className = "error";
-      } else {
-        info.innerHTML = "The service seems to be unavailable at the moment.";
-        info.className = "info";
+    if(form.test_button !== undefined) {
+      form.test_button.onclick = function() {
+        var result = provider.testCredentials(form);
+        var info = document.getElementById("info");
+        if(result === "valid") {
+          info.innerHTML = "Successful authentication!";
+          info.className = "success";
+        } else if(result === "invalid") {
+          info.innerHTML = "Failed to authenticate!";
+          info.className = "error";
+        } else {
+          info.innerHTML = "The service seems to be unavailable at the moment.";
+          info.className = "info";
+        }
       }
     }
   }
