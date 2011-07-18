@@ -36,7 +36,6 @@ Zendesk = {
   },
  
   initFromForm: function(form) {
-    console.log("Initializing zendesk");
     this.enabled = form.enabled.checked;
     this.companyId = form.company_id.value;
     this.username = form.username.value;

@@ -70,7 +70,6 @@ function initProviderForm(providerName, provider) {
   
   var form = formWrapper.firstChild;
   form.onsubmit = function() {
-    console.log(provider);
     provider.initFromForm(form);
     saveConfig();
     return false;

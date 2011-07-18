@@ -22,7 +22,6 @@ GetSatisfaction = {
       This is something we should solve in the infrastructure code, though.
     */
     var active = JSON.parse(xhr.responseText).data.filter(function(topic) {
-      console.log(topic.status);
       return (topic.status !== "rejected" && topic.status !== "completed")
     });
     return active.sort(function(a, b) {
