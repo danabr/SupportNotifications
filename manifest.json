@@ -6,8 +6,13 @@
   "background_page": "bg.html",
   "options_page": "options.html",
   "browser_action": {
-    "default_icon": "lgpl/icon.png",
+    "default_icon": "lgpl/48.png",
     "default_title": "Support Notifications",
     "default_popup": "master_password.html"
+  },
+  "icons": {
+    "16": "lgpl/16.png",
+    "48": "lgpl/48.png",
+    "128": "lgpl/128.png"
   }
 }

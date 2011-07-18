@@ -61,8 +61,20 @@ function saveConfig(masterPassword) {
 /*
   Private API
 */
+
+// Initial string to use for lastTicketUpdated
+function _defaultTicketDate() {
+  function _twodigits(number) {
+    if(number <= 9) { return "0" + number};
+    return number.toString();
+  }
+  var now = new Date();
+  return [now.getFullYear(), _twodigits(now.getMonth()+1), 
+    _twodigits(now.getDate())].join("/");
+}
+
 function _notifyAboutTicket(provider, ticket) {
-  var notification = webkitNotifications.createNotification('lgpl/icon.png', 
+  var notification = webkitNotifications.createNotification('lgpl/48.png', 
                                                             provider.name, 
                                                             ticket.subject)
   notification.onclick = function() {
@@ -82,7 +94,7 @@ function _updateProviderStatus(providerName, provider) {
     var i = tickets.length;
     var newTickets = false;
     var storageVar = providerName + ".lastTicketUpdated";
-    var lastTicketUpdated = localStorage[storageVar] || "2011/06/30";
+    var lastTicketUpdated = localStorage[storageVar] || _defaultTicketDate();
     while(i--) {
       var ticket = tickets[i];
       if (ticket.updated_at > lastTicketUpdated) {
