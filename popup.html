@@ -40,6 +40,9 @@
           }
         }
         
+        var optionsLink = document.getElementById("options_link");
+        optionsLink.href = chrome.extension.getURL("options.html");
+        
       }
     </script>
   </head>
@@ -47,5 +50,10 @@
     <h2>Open tickets</h2>
     <div id="open_tickets"></div>
     <div id="latest_tickets"></div>
+    <div>
+      <a href="" id="options_link" target="_blank">
+        Configure SupportNotifications
+      </a>
+    </div>
   </body>
 </html>

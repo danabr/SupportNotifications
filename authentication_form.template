@@ -3,19 +3,19 @@
     <legend>{{{providerName}}} Authentiation details</legend>
       <table>
         <tr>
-          <th>Enable</th>
+          <td><label for="enabled">Enable</label></td>
           <td><input type="checkbox" name="enabled" value="1" {{{checked}}}/></td>
         </tr>
         <tr>
-          <th>Company ID</th>
+          <td><label for="company_id">Company ID</label></td>
           <td><input type="text" name="company_id" value="{{{companyId}}}"/></td>
         </tr>
         <tr>
-          <th>Username</th>
+          <td><label for="username">Username</label></td>
           <td><input type="text" name="username" value="{{{username}}}"/></td>
         </tr>
         <tr>
-          <th>Password</th>
+          <td><label for="password">Password</label></td>
           <td><input type="password" name="password" value=""/></td>
         </tr>
       </table>
