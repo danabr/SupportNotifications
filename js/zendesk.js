@@ -19,12 +19,12 @@ Zendesk = {
   },
 
   getTicketURL: function(ticket) {
-  return "http://" + this.companyId + ".zendesk.com/tickets/" + ticket.nice_id;
+    return "http://" + this.companyId + ".zendesk.com/tickets/" + ticket.nice_id;
   },
   
   getTicketsURL: function(companyId) {
-  cmp = companyId || this.companyId;
-  return "http://" + cmp + ".zendesk.com/rules/871014";
+    cmp = companyId || this.companyId;
+    return "http://" + cmp + ".zendesk.com/rules/871014";
   },
 
   /*

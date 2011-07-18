@@ -1,0 +1,15 @@
+#info {
+  margin: 1em 0;
+}
+
+#info.error {
+  color:red;
+}
+
+#info.info {
+  color:blue;
+}
+
+#info.success {
+  color:green;
+}

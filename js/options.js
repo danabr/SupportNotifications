@@ -52,17 +52,26 @@ function initAuthenticationDetailsForms() {
       provider.companyId = form.company_id.value;
       provider.username = form.username.value;
       provider.password = form.password.value;
-      if (!bg.saveConfig(document.getElementById("master_password").value)) {
-        alert("Master password too short");
-      };
+      saveConfig();
       return false;
     }
     
     form.test_button.onclick = function() {
-      alert(provider.testCredentials(
+      var result = provider.testCredentials(
         form.company_id.value, 
         form.username.value, 
-        form.password.value));
+        form.password.value);
+      var info = document.getElementById("info");
+      if(result === "valid") {
+        info.innerHTML = "Successful authentication!";
+        info.className = "success";
+      } else if(result === "invalid") {
+        info.innerHTML = "Failed to authenticate!";
+        info.className = "error";
+      } else {
+        info.innerHTML = "The service seems to be unavailable at the moment.";
+        info.className = "info";
+      }
     }
   }
 }
@@ -84,9 +93,19 @@ function initNotificationsForm() {
     notifications.notifications_on = form.display_notifications.checked;
     notifications.sound_on = form.play_sound.checked;
     notifications.interval = form.update_interval[form.update_interval.selectedIndex].value;
-    if(!bg.saveConfig(document.getElementById("master_password").value)) {
-      alert("Master password too short");
-    };
+    saveConfig();
     return false;
+  }
+}
+
+function saveConfig() {
+  var bg = chrome.extension.getBackgroundPage();
+  var info = document.getElementById("info");
+  if (!bg.saveConfig(document.getElementById("master_password").value)) {
+    info.innerHTML = "The provided master password is too short.";
+    info.className = "error";
+  } else {
+    info.innerHTML = "Your settings have been saved.";
+    info.className = "success";
   }
 }
