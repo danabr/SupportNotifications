@@ -4,6 +4,7 @@
 function initForms() {
   initAuthenticationDetailsForms();
   initNotificationsForm();
+  document.getElementById("master_password").focus();
 }
 
 // Fetches the contents of the resource with the given name

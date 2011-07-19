@@ -85,7 +85,7 @@ function _notifyAboutTicket(provider, ticket) {
 
 function _scheduleStatusUpdate() {
   var interval = SupportNotifications.Notifications.interval * 60 * 1000;
-  setTimeout(_updateStatus, interval);
+  setTimeout(function() { updateStatus(); _scheduleStatusUpdate(); }, interval);
 }
 
 function _updateProviderStatus(providerName, provider) {
@@ -110,7 +110,7 @@ function _updateProviderStatus(providerName, provider) {
   return newTickets;
 }
 
-function _updateStatus() {
+function updateStatus() {
   var numTickets = 0;
   var newTickets = false;
   for(var providerName in SupportNotifications.providers) {
@@ -133,8 +133,6 @@ function _updateStatus() {
     var audio = document.getElementById("notification_audio");
     audio.play();
   }
-  
-  _scheduleStatusUpdate();
 }
 
 /*
