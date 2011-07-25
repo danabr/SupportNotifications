@@ -12,25 +12,31 @@ GetSatisfaction = {
   },
 
   getOpenTickets: function() {
-    var url = this._getTicketsAPIURL();
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", url, false);
-    xhr.send();
+    var newTickets = this._getTicketsByStatus("nil");
+    var plannedTickets = this._getTicketsByStatus("active");
+    var consideredTickets = this._getTicketsByStatus("pending");
+    var tickets = newTickets.concat(plannedTickets, consideredTickets);
+   
     /*
-      TODO: We actually return only the 15 most recent topics,
+      TODO: We actually return only the 3*15 most recent topics,
       which will result in an incorrect "total" number.
       This is something we should solve in the infrastructure code, though.
     */
-    var active = JSON.parse(xhr.responseText).data.filter(function(topic) {
-      return (topic.status !== "rejected" && topic.status !== "completed")
-    });
-    return active.sort(function(a, b) {
+    return tickets.sort(function(a, b) {
       if(a.created_at < b.created_at) {
         return 1;
       } else {
         return -1;
       }
     });
+  },
+  
+  _getTicketsByStatus: function(status) {
+    var url = this._getTicketsAPIURL() + "?status=" + status;
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", url, false);
+    xhr.send();
+    return JSON.parse(xhr.responseText).data;
   },
 
   getTicketURL: function(ticket) {
@@ -39,8 +45,7 @@ GetSatisfaction = {
   
   _getTicketsAPIURL: function(companyId) {
     var cmp = companyId || this.companyId;
-    return "http://api.getsatisfaction.com/companies/" + cmp + "/topics.json" +
-      "?sort=recently_created";
+    return "http://api.getsatisfaction.com/companies/" + cmp + "/topics.json";
   },
   
   getTicketsURL: function() {
