@@ -12,18 +12,19 @@ Zendesk = {
     };
   },
 
-  getOpenTickets: function() {
+  getTicketData: function() {
     var url = this.getTicketsURL() + ".json";
     var xhr = new XMLHttpRequest();
     xhr.open("GET", url, false, this.username, this.password);
     xhr.send();
-    return JSON.parse(xhr.responseText).sort(function(a, b) {
+    var tickets = JSON.parse(xhr.responseText).sort(function(a, b) {
       if(a.created_at < b.created_at) {
         return 1;
       } else {
         return -1;
       }
     });
+    return {tickets: tickets, total: tickets.length};
   },
 
   getTicketURL: function(ticket) {

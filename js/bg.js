@@ -89,7 +89,8 @@ function _scheduleStatusUpdate() {
 }
 
 function _updateProviderStatus(providerName, provider) {
-  var tickets = provider.getOpenTickets();
+  var ticketData = provider.getTicketData();
+  var tickets = ticketData.tickets;
   //Alert about all new tickets
   var newTickets = false;
   var storageVar = providerName + ".lastTicketCreated";
@@ -106,8 +107,7 @@ function _updateProviderStatus(providerName, provider) {
     }
   }
   localStorage[storageVar] = lastTicketCreated;
-  Tickets[providerName] = tickets;
-  return newTickets;
+  Tickets[providerName] = {latestTicket: tickets[0], total: ticketData.total};
 }
 
 function updateStatus() {
@@ -120,7 +120,7 @@ function updateStatus() {
         if(_updateProviderStatus(providerName, provider)) {
           newTickets = true;
         }
-        numTickets += Tickets[providerName].length;
+        numTickets += Tickets[providerName].total;
       }
       catch(err) {
         console.log(err); // Provider not available?

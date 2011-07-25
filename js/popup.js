@@ -4,20 +4,22 @@ function initData() {
   var latestTickets = document.getElementById("latest_tickets");
   for(var providerName in bg.SupportNotifications.providers) {
     var provider = bg.SupportNotifications.providers[providerName];
-    var tickets = bg.Tickets[providerName] || [];
+    if (bg.Tickets[providerName]) {
+      var latestTicket = bg.Tickets[providerName].latestTicket;
+      var ticketCount =  bg.Tickets[providerName].total;
+    }
     var container = document.createElement("div");
     if (!provider.enabled) {
       container.className = "disabled";
     }
     container.appendChild(document.createTextNode(provider.name + ": "));
     var anchor = document.createElement("a");
-    anchor.appendChild(document.createTextNode(tickets.length));
+    anchor.appendChild(document.createTextNode(ticketCount || "?"));
     anchor.href = provider.getTicketsURL();
     anchor.target = "_blank";
     container.appendChild(anchor);
     openTickets.appendChild(container);
     
-    var latestTicket = tickets[0];
     if (latestTicket !== undefined) {
       container = document.createElement("div");
       var h = document.createElement("h3");

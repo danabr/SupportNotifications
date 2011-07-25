@@ -11,24 +11,21 @@ GetSatisfaction = {
     };
   },
 
-  getOpenTickets: function() {
+  getTicketData: function() {
     var newTickets = this._getTicketsByStatus("nil");
     var plannedTickets = this._getTicketsByStatus("active");
     var consideredTickets = this._getTicketsByStatus("pending");
-    var tickets = newTickets.concat(plannedTickets, consideredTickets);
-   
-    /*
-      TODO: We actually return only the 3*15 most recent topics,
-      which will result in an incorrect "total" number.
-      This is something we should solve in the infrastructure code, though.
-    */
-    return tickets.sort(function(a, b) {
+    var tickets = newTickets.tickets.concat(plannedTickets.tickets, 
+                                            consideredTickets.tickets);
+    tickets.sort(function(a, b) {
       if(a.created_at < b.created_at) {
         return 1;
       } else {
         return -1;
       }
     });
+    var total = newTickets.total + plannedTickets.total + consideredTickets.total;
+    return {tickets: tickets, total: total};
   },
   
   _getTicketsByStatus: function(status) {
@@ -36,7 +33,8 @@ GetSatisfaction = {
     var xhr = new XMLHttpRequest();
     xhr.open("GET", url, false);
     xhr.send();
-    return JSON.parse(xhr.responseText).data;
+    var data = JSON.parse(xhr.responseText);
+    return {tickets: data.data, total: data.total};
   },
 
   getTicketURL: function(ticket) {
