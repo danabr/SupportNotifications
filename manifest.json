@@ -1,6 +1,6 @@
 {
   "name": "Support Notifications",
-  "version": "1.2.0",
+  "version": "1.0.0",
   "description:": "Notifies about new tickets in Zendesk, GetSatisfaction and similar services",
   "permissions": ["notifications", 
                   "http://*.zendesk.com/", "https://*.zendesk.com/",
