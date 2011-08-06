@@ -33,3 +33,7 @@ a, a:visited {
   text-decoration:underline;
   color: rgb(61, 148, 204);
 }
+
+#status {
+  display: none;
+}

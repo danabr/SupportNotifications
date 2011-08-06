@@ -37,8 +37,17 @@ function initData() {
   optionsLink.href = chrome.extension.getURL("options.html");
   
   var updateLink = document.getElementById("update_link");
+  var status = document.getElementById("status");
   updateLink.onclick = function() {
-    bg.updateStatus();
-    window.location.reload();
+    status.style.display = "block";
+    
+    /*
+      We need to defer this operation or otherwise
+      chrome won't update the display.
+    */
+    setTimeout(function() {
+      bg.updateStatus();
+      window.location.reload();
+    }, 250);
   }
 }
