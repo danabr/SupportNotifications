@@ -1,13 +1,35 @@
 body {
   width:400px;
+  font-size: 12px;
+  font-family: Arial;
+  color: rgb(140, 140, 140);
 }
 
-h2, h3, h4 {
-  margin:5px;
-  margin-left:0;
+h2, h3 {
+  margin:10px 0;
   padding:0;
 }
 
+h3 a, h3 a:visited {
+  color: rgb(204, 105, 61);
+  text-decoration:underline;
+}
+
+h2 {
+  color: rgb(61, 148, 204);
+}
+
+a, a:visited {
+  color: rgb(140, 140, 140);
+}
+
 #actions {
-  border-top: 1px solid #333;
+  border-top: 1px solid rgb(191,191,191);
+  margin-top:10px;
+  padding-top:10px;
+}
+
+#actions a , #actions a:visited {
+  text-decoration:underline;
+  color: rgb(61, 148, 204);
 }

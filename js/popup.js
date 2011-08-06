@@ -1,6 +1,5 @@
 function initData() {
   var bg = chrome.extension.getBackgroundPage();
-  var openTickets = document.getElementById("open_tickets");
   var latestTickets = document.getElementById("latest_tickets");
   for(var providerName in bg.SupportNotifications.providers) {
     var provider = bg.SupportNotifications.providers[providerName];
@@ -9,31 +8,29 @@ function initData() {
       var ticketCount =  bg.Tickets[providerName].total;
     }
     var container = document.createElement("div");
-    if (!provider.enabled) {
-      container.className = "disabled";
-    }
-    container.appendChild(document.createTextNode(provider.name + ": "));
-    var anchor = document.createElement("a");
-    anchor.appendChild(document.createTextNode(ticketCount || "?"));
-    anchor.href = provider.getTicketsURL();
-    anchor.target = "_blank";
-    container.appendChild(anchor);
-    openTickets.appendChild(container);
-    
-    if (latestTicket !== undefined) {
-      container = document.createElement("div");
+    if (provider.enabled) {      
+      var container = document.createElement("div");
       var h = document.createElement("h3");
-      h.appendChild(document.createTextNode(provider.name));
+      var providerLink = document.createElement("a");
+      providerLink.href = provider.getTicketsURL();
+      providerLink.target = "_blank";
+      providerLink.appendChild(document.createTextNode(provider.name +
+          " (" + (ticketCount || "?") + ")"));
+      h.appendChild(providerLink);
       container.appendChild(h);
-      var title = document.createElement("h4");
-      anchor = document.createElement("a");
-      anchor.appendChild(document.createTextNode(latestTicket.subject));
-      anchor.href = provider.getTicketURL(latestTicket);
-      anchor.target = "_blank";
-      title.appendChild(anchor);
-      container.appendChild(title);
+      if (latestTicket !== undefined) {
+        var anchor = document.createElement("a");
+        anchor.href = provider.getTicketURL(latestTicket);
+        anchor.target = "_blank";
+        anchor.appendChild(document.createTextNode(latestTicket.subject));
+        container.appendChild(anchor);
+      } else {
+        container.appendChild(document.createTextNode("Ticket data not loaded yet."));
+      }
       latestTickets.appendChild(container);
     }
+    
+   
   }
   
   var optionsLink = document.getElementById("options_link");
