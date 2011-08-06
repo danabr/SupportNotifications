@@ -7,7 +7,7 @@ SupportNotifications = {
   version: "1.0.0",
   providers: {},
   Notifications: {
-    interval: 0.1,
+    interval: 1,
     sound_on: true,
     notifications_on: true
   },
