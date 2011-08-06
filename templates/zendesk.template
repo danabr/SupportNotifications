@@ -1,6 +1,6 @@
 <form id="zendesk">
   <fieldset>
-    <legend>Zendesk Authentiation details</legend>
+    <legend>Zendesk Authentication details</legend>
     <p>
        <input type="checkbox" name="enabled" value="1" {{{checked}}} id="zendesk_enabled"/>
        <label for="zendesk_enabled">Enable</label>

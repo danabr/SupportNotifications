@@ -1,6 +1,6 @@
 <form id="getsatisfaction">
   <fieldset>
-    <legend>GetSatisfaction Authentiation details</legend>
+    <legend>GetSatisfaction Authentication details</legend>
     <p>
       <input type="checkbox" name="enabled" value="1" {{{checked}}} id="getsatisfaction_enabled"/>
       <label for="getsatisfaction_enabled">Enable</label>
