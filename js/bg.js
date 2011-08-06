@@ -108,6 +108,7 @@ function _updateProviderStatus(providerName, provider) {
   }
   localStorage[storageVar] = lastTicketCreated;
   Tickets[providerName] = {latestTicket: tickets[0], total: ticketData.total};
+  return newTickets;
 }
 
 function updateStatus() {

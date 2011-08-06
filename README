@@ -16,7 +16,6 @@ computer after you have logged in with your master password can thus find your
 usernames, passwords. You are hereby warned.
 
 TODO:
-  * Find a suitable sound for notifications
   * Present errors in a nice way
   
 Getting Started
@@ -31,4 +30,4 @@ Getting Started
 
 Contributors:
 Daniel Abrahamsson (development)
-Joel Abrahamsson (design)
+Joel Abrahamsson (design, audio)
