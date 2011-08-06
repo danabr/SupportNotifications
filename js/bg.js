@@ -7,7 +7,7 @@ SupportNotifications = {
   version: "1.0.0",
   providers: {},
   Notifications: {
-    interval: 1,
+    interval: 0.1,
     sound_on: true,
     notifications_on: true
   },
@@ -114,6 +114,7 @@ function _updateProviderStatus(providerName, provider) {
 function updateStatus() {
   var numTickets = 0;
   var newTickets = false;
+  var errors = false;
   for(var providerName in SupportNotifications.providers) {
     var provider = SupportNotifications.providers[providerName];
     if(provider.enabled) {
@@ -124,12 +125,20 @@ function updateStatus() {
         numTickets += Tickets[providerName].total;
       }
       catch(err) {
+        errors = true;
         console.log(err); // Provider not available?
       }
     }
   }
   
-  chrome.browserAction.setBadgeText({text: numTickets.toString()});
+  if (errors) {
+    chrome.browserAction.setBadgeBackgroundColor({color: [255, 188, 66, 255] });
+    chrome.browserAction.setTitle({title: "Last update attempt failed."});
+  } else {
+    chrome.browserAction.setBadgeBackgroundColor({color: [123, 170, 30, 255] });
+    chrome.browserAction.setBadgeText({text: numTickets.toString()});
+    chrome.browserAction.setTitle({title: "SupportNotifications"});
+  }
   if (newTickets && SupportNotifications.Notifications.sound_on) {
     var audio = document.getElementById("notification_audio");
     audio.play();
