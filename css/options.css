@@ -1,15 +1,95 @@
-#info {
-  margin: 1em 0;
+#top_panel.error {
+  color: rgb(204, 61, 61);
 }
 
-#info.error {
-  color:red;
+#top_panel.info {
+  color: rgb(61, 148, 204);
 }
 
-#info.info {
-  color:blue;
+#top_panel.success {
+  color: rgb(147, 197, 114);
 }
 
-#info.success {
-  color:green;
+body {
+  font-family: Arial;
+}
+
+#top_panel {
+  padding: 10px 0;
+  position:fixed;
+  font-size:14px;
+  top:0;
+  left:0;
+  width:100%;
+  z-index: 1;
+  border-bottom: 1px solid rgb(233, 214, 107);
+  text-align:center;
+  background-color:rgb(255, 250, 205);
+  display:none;
+}
+
+#left_panel {
+  width:250px;
+  padding: 10px;
+  background-color: rgb(242, 242, 242);
+  position: fixed;
+  left: 0;
+  top: 0;
+  height:100%;
+  border-right: 1px solid rgb(191,191,191);
+  text-align: right;
+  padding-top: 200px;
+}
+
+#sections a {
+  display: block;
+  padding-bottom:10px;
+}
+
+#right_panel {
+  margin-left:270px;
+  padding:10px;
+  padding-top:0;
+}
+
+h1 {
+  color: rgb(61, 148, 204);
+  font-size: 30px;
+}
+
+legend {
+  color: rgb(204, 105, 61);
+  font-size:18px;
+  border-bottom: 1px solid rgb(191,191,191);
+  width:100%;
+  padding-bottom:10px;
+}
+
+fieldset {
+  border: 0;
+  padding-left: 0;
+}
+
+label {
+  color: rgb(140, 140, 140);
+  font-size: 12px;
+}
+
+a {
+  text-decoration:none;
+  color: rgb(166, 166, 166);
+  font-size: 14px;
+}
+
+a:hover {
+  color: rgb(140, 140, 140);
+}
+
+p {
+  padding-bottom: 10px;
+  margin: 0px;
+}
+
+input[type="submit"], input[type="button"] {
+  padding:2px 10px;
 }

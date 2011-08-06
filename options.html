@@ -5,46 +5,50 @@
     <link href="css/options.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript" src="js/options.js"></script>
   </head>
-  <body onload="initForms()">
-    <h1>SupportNotifications configuration</h1>
-    <div id="info" class="info">
-      You must specify your master password in order to save your data.
+  <body onload="init()">
+    <div id="top_panel"></div>
+    <div id="left_panel">
+      <div id="sections">
+        <a href="#notification_form">Notifications</a>
+      </div>
     </div>
-    <form>
-      <fieldset>
-        <label for="master_password">Master Password: </label>
-        <input type="password" name="master_password" id="master_password" />
-      </fieldset>
-    </form>
-    <form id="notification_form">
-      <fieldset>
-        <legend>Notifications</legend>
-          <table>
-            <tr>
-              <td><label for="display_notifications">Display notifications</label></td>
-              <td><input type="checkbox" name="display_notifications" value="1" /></td>
-            </tr>
-            <tr>
-              <td><label for="play_sound">Play sound</label></td>
-              <td><input type="checkbox" name="play_sound" value="1" /></td>
-            </tr>
-            <tr>
-              <td><label for="update_interval">Update interval (minutes)</label></td>
-              <td>
-                <select name="update_interval">
-                  <option>1</option>
-                  <option>2</option>
-                  <option>5</option>
-                  <option>10</option>
-                  <option>30</option>
-                  <option>60</option>
-                </select>
-              </td>
-            </tr>
-          </table>
-          <input type="submit" name="submit_button" value="Save" />
+    <div id="right_panel">
+      <h1>Configuration - SupportNotifications</h1>
+      <form>
+        <fieldset>
+          <div><label for="master_password">Master Password: </label></div>
+          <input type="password" name="master_password" id="master_password" />
         </fieldset>
-    </form>
-    <div id="authentication_forms"></div>
+      </form>
+      <form id="notification_form">
+        <fieldset>
+          <legend>Notifications</legend>
+            <p>
+              <input type="checkbox" name="display_notifications" id="display_notifications" value="1" />
+              <label for="display_notifications">Display notifications</label>
+            </p>
+            <p>
+              <input type="checkbox" name="play_sound" id="play_sound" value="1" />
+              <label for="play_sound">Play sound</label>
+            </p>
+            <p>
+              <label for="update_interval">Update interval (minutes):</label>
+              <br/>
+              <select name="update_interval" id="update_interval">
+                <option>1</option>
+                <option>2</option>
+                <option>5</option>
+                <option>10</option>
+                <option>30</option>
+                <option>60</option>
+              </select>
+            </p>
+            <p>
+              <input type="submit" name="submit_button" value="Save" />
+            </p>
+          </fieldset>
+      </form>
+      <div id="authentication_forms"></div>
+    </div>
   </body>
 </html>

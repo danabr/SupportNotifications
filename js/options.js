@@ -1,6 +1,13 @@
 /*
   Javascript for the options page
 */
+
+function init() {
+  initForms();
+  // Dummy notification timer
+  notificationTimer = setTimeout(function() {}, 30000);
+}
+
 function initForms() {
   initAuthenticationDetailsForms();
   initNotificationsForm();
@@ -29,12 +36,19 @@ function applyTemplate(template, dataObject) {
 // Creates the authentication details forms for the various providers
 function initAuthenticationDetailsForms() {
   var bg = chrome.extension.getBackgroundPage();
+  var sections = document.getElementById("sections");
   for(var providerName in bg.SupportNotifications.providers) {
     var provider = bg.SupportNotifications.providers[providerName];
-    // Only reason we use a form here is that Chrome does not
+    // Only reason we use a function here is that Chrome does not
     // support the "let" keyword (and javascript is function scoped,
     // not block scoped).
     initProviderForm(providerName, provider);
+    
+    // Create provider link in the left menu
+    var link = document.createElement("a");
+    link.href = "#" + providerName.toLowerCase();
+    link.innerHTML = providerName;
+    sections.appendChild(link);
   }
 }
 
@@ -79,16 +93,12 @@ function initProviderForm(providerName, provider) {
   if(form.test_button !== undefined) {
     form.test_button.onclick = function() {
       var result = provider.testCredentials(form);
-      var info = document.getElementById("info");
       if(result === "valid") {
-        info.innerHTML = "Successful authentication!";
-        info.className = "success";
+        notify("success", "Successful authentication!");
       } else if(result === "invalid") {
-        info.innerHTML = "Failed to authenticate!";
-        info.className = "error";
+        notify("error", "Failed to authenticate!");
       } else {
-        info.innerHTML = "The service seems to be unavailable at the moment.";
-        info.className = "info";
+        notify("info", "The service seems to be unavailable at the moment.");
       }
     }
   }
@@ -96,12 +106,33 @@ function initProviderForm(providerName, provider) {
 
 function saveConfig() {
   var bg = chrome.extension.getBackgroundPage();
-  var info = document.getElementById("info");
-  if (!bg.saveConfig(document.getElementById("master_password").value)) {
-    info.innerHTML = "The provided master password is too short.";
-    info.className = "error";
+  var masterPwd = document.getElementById("master_password");
+  var pwd = masterPwd.value;
+  if (!bg.saveConfig(pwd)) {
+    if (pwd.length == 0) {
+      notify("info", "You must specify your master password in order to save your data.");
+    } else {
+      notify("error", "The provided master password is too short.");
+    }
+    masterPwd.focus();
   } else {
-    info.innerHTML = "Your settings have been saved.";
-    info.className = "success";
+    notify("success", "Your settings have been saved."); 
   }
+}
+
+/*
+  status = "success"|"error"|"info"
+*/
+function notify(status, message) {
+  var top_panel = document.getElementById("top_panel");
+  // Hide infobar after a while
+  clearTimeout(notificationTimer);
+  notificationTimer = setTimeout(function() {
+    top_panel.style.display = "none";
+    }, 10000);
+  // Display top panel  
+  top_panel.className = status;
+  top_panel.innerHTML = message;
+  top_panel.style.display = "block";
+  
 }

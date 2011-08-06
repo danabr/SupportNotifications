@@ -1,17 +1,17 @@
-<form>
+<form id="getsatisfaction">
   <fieldset>
     <legend>GetSatisfaction Authentiation details</legend>
-      <table>
-        <tr>
-          <td><label for="enabled">Enable</label></td>
-          <td><input type="checkbox" name="enabled" value="1" {{{checked}}}/></td>
-        </tr>
-        <tr>
-          <td><label for="company_id">Company ID</label></td>
-          <td><input type="text" name="company_id" value="{{{companyId}}}"/></td>
-        </tr>
-      </table>
+    <p>
+      <input type="checkbox" name="enabled" value="1" {{{checked}}} id="getsatisfaction_enabled"/>
+      <label for="getsatisfaction_enabled">Enable</label>
+    </p>
+    <p>
+      <label for="getsatisfaction_company_id">Company ID: </label> <br/>
+      <input type="text" name="company_id" value="{{{companyId}}}" id="getsatisfaction_company_id"/>
+    </p>
+    <p>
       <input type="submit" name="submit_button" value="Save" />
       <input type="button" name="test_button" value="Test" />
-    </fieldset>
+    </p>
+  </fieldset>
 </form>

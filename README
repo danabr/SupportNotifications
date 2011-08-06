@@ -17,8 +17,7 @@ usernames, passwords. You are hereby warned.
 
 TODO:
   * Find a suitable sound for notifications
-  * Make the extension pages pleasing to the eye
-  * Add getsatisfaction support
+  * Make the popup and master password page pleasing to the eye
   * Present errors in a nice way
   
 Getting Started
@@ -30,3 +29,7 @@ Getting Started
 * Fill in your Zendesk authentication details, as well as your master password and save your settings.
 * You can also test your authetication details bly clicking on the "Test" button.
 * A desktop notification will appear as new tickets are created, and you will be able to see the number of tickets, as well as the most recent ticket, by clicking on the headphones.
+
+Contributors:
+Daniel Abrahamsson (development)
+Joel Abrahamsson (design)

@@ -1,25 +1,25 @@
-<form>
+<form id="zendesk">
   <fieldset>
     <legend>Zendesk Authentiation details</legend>
-      <table>
-        <tr>
-          <td><label for="enabled">Enable</label></td>
-          <td><input type="checkbox" name="enabled" value="1" {{{checked}}}/></td>
-        </tr>
-        <tr>
-          <td><label for="company_id">Company ID</label></td>
-          <td><input type="text" name="company_id" value="{{{companyId}}}"/></td>
-        </tr>
-        <tr>
-          <td><label for="username">Username</label></td>
-          <td><input type="text" name="username" value="{{{username}}}"/></td>
-        </tr>
-        <tr>
-          <td><label for="password">Password</label></td>
-          <td><input type="password" name="password" value=""/></td>
-        </tr>
-      </table>
+    <p>
+       <input type="checkbox" name="enabled" value="1" {{{checked}}} id="zendesk_enabled"/>
+       <label for="zendesk_enabled">Enable</label>
+    </p>
+    <p>
+      <label for="zendesk_company_id">Company ID:</label> <br/>
+      <input type="text" name="company_id" value="{{{companyId}}}" id="zendesk_company_id"/>
+    </p>
+    <p>
+      <label for="zendesk_username">Username:</label><br/>
+      <input type="text" name="username" value="{{{username}}}" id="zendesk_username"/>
+    </p>
+    <p>
+      <label for="zendesk_password">Password:</label> <br/>
+      <input type="password" name="password" value="" id="zendesk_password"/>
+    </p>
+    <p>
       <input type="submit" name="submit_button" value="Save" />
       <input type="button" name="test_button" value="Test" />
-    </fieldset>
+    </p>
+  </fieldset>
 </form>
