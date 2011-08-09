@@ -83,9 +83,9 @@ function _notifyAboutTicket(provider, ticket) {
   notification.show();
 }
 
-function _scheduleStatusUpdate() {
+function scheduleStatusUpdate() {
   var interval = SupportNotifications.Notifications.interval * 60 * 1000;
-  setTimeout(function() { updateStatus(); _scheduleStatusUpdate(); }, interval);
+  setTimeout(function() { updateStatus(); scheduleStatusUpdate(); }, interval);
 }
 
 function _updateProviderStatus(providerName, provider) {
@@ -148,6 +148,5 @@ function updateStatus() {
 /*
   Initialization
 */
-_scheduleStatusUpdate();
 chrome.browserAction.setBadgeBackgroundColor({color: [255, 188, 66, 255] });
 chrome.browserAction.setBadgeText({text: "?" });
