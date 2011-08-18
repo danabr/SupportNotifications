@@ -1,0 +1,4 @@
+Verson 1.0.1:
+* Obtain rule/view id to use from Zendesk (Issue #1, christianaj).
+* Do not schedule status update before logging in
+* Smaller popup
