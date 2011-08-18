@@ -3,6 +3,14 @@ SupportNotifications.providers.Zendesk =
     {password: "", username: "", companyId: "company"});
 
 Zendesk = {
+  _callZendesk: function(url, username, password) {
+    xhr = new XMLHttpRequest();
+    xhr.open("GET", url + ".json", false, 
+      username || this.username, password || this.password);
+    xhr.send();
+    return xhr;
+  },
+
   // Returns template data for the authentication form
   formData: function() {
     return {
@@ -13,10 +21,7 @@ Zendesk = {
   },
 
   getTicketData: function() {
-    var url = this.getTicketsURL() + ".json";
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", url, false, this.username, this.password);
-    xhr.send();
+    var xhr = this._callZendesk(this.getTicketsURL());
     var tickets = JSON.parse(xhr.responseText).sort(function(a, b) {
       if(a.created_at < b.created_at) {
         return 1;
@@ -33,7 +38,37 @@ Zendesk = {
   
   getTicketsURL: function(companyId) {
     var cmp = companyId || this.companyId;
-    return "http://" + cmp + ".zendesk.com/rules/871014";
+    return "http://" + cmp + ".zendesk.com/rules/" + this._getRuleId(cmp);
+  },
+
+  _getViewsURL: function(companyId) {
+    var cmp = companyId || this.companyId;
+    return "http://" + cmp + ".zendesk.com/views";
+  },
+
+  /*
+    Returns the rule to use for checking for new tickets.
+    Uses the first rile/view
+  */
+  _getRuleId: function(companyId) {
+    if (this.ruleId === undefined) {
+      try {
+        var xhr = this._callZendesk(this._getViewsURL(companyId));
+        if (xhr.status == "200") {
+          var views = JSON.parse(xhr.responseText)["views"];
+          this.ruleId = views[0]["id"];
+          return this.ruleId;
+        } else {
+          throw "Zendesk views not available. Status: " + xhr.status;  
+        }
+      } catch(err) {
+        console.log("Failed to obtain Zendesk rule id!");
+        console.log(err);
+        return "871014"; // "My unsolved tickets"
+      }
+    } else {
+      return this.ruleId;
+    }
   },
  
   initFromForm: function(form) {
@@ -51,11 +86,9 @@ Zendesk = {
     var companyId = form.company_id.value;
     var username = form.username.value;
     var password = form.password.value;
-    var url = this.getTicketsURL(companyId) + ".json";
-    var xhr = new XMLHttpRequest();
+    var url = this._getViewsURL(companyId);
     try {
-      xhr.open("GET", url, false, username, password);
-      xhr.send();
+      var xhr = this._callZendesk(url, username, password);
       if(xhr.status === 200) {
         return "valid";
       } else if(xhr.status === 401 || xhr.status == 404) {
