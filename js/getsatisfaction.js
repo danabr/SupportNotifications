@@ -3,6 +3,9 @@ SupportNotifications.providers.GetSatisfaction =
     {companyId: "company"});
 
 GetSatisfaction = {
+  afterLoad: function() {
+  },
+  
   // Returns template data for the authentication form
   formData: function() {
     return {

@@ -21,11 +21,27 @@ TODO:
 Getting Started
 ---------------
 * Install the extension.
-* You should now see a headphone icon beside the wrench, with a yellow banner indicating that you have not "logged in". Click on it and enter a master password that will be used to protect your credentials.
-* Click on the headphones again and select "Configure SupportNotifications". This will bring up the options page.
-* Fill in your authentication details, as well as your master password and save your settings.
-* You can also test your authetication details bly clicking on the "Test" button.
-* A desktop notification will appear as new tickets are created, and you will be able to see the number of tickets, as well as the most recent ticket, by clicking on the headphones.
+* You should now see a headphone icon beside the wrench, with a yellow banner 
+  indicating that you have not "logged in". Click on it and enter a master password
+  that will be used to protect your credentials.
+* Click on the headphones again and select "Configure SupportNotifications". 
+  This will bring up the options page.
+* Fill in your authentication details, as well as your master password and save your
+  settings.
+* You can also test your authentication details bly clicking on the "Test" button.
+* A desktop notification will appear as new tickets are created, and you will be able
+  to see the number of tickets, as well as the most recent ticket, by clicking on the
+  headphones.
+
+Note for Zendesk users
+----------------------
+You can help SupportNotifications by creating a view with "SupportNotifications"
+in the title. Configure it like this:
+"Meet all of the following conditions": Status less than Pending
+"Order by": Request date  
+"Available for": All agents
+
+SupportNotifications will use this view when looking for new tickets.
 
 Contributors:
 Daniel Abrahamsson (development)

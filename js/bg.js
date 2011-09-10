@@ -38,6 +38,7 @@ function loadConfig(masterPassword) {
   for(var providerName in SupportNotifications.providers) {
     SupportNotifications.providers[providerName].__proto__ = 
       window[providerName];
+    SupportNotifications.providers[providerName].afterLoad();
   }
   
   return true;

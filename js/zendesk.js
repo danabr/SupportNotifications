@@ -10,6 +10,13 @@ Zendesk = {
     xhr.send();
     return xhr;
   },
+  
+  afterLoad: function() {
+    // This is to force updates of this property
+    // for all < 1.0.2 users. Should be safe to remove
+    // it 1 month after the 1.0.2 release date.
+    this.ruleId = undefined;
+  },
 
   // Returns template data for the authentication form
   formData: function() {
@@ -48,16 +55,13 @@ Zendesk = {
 
   /*
     Returns the rule to use for checking for new tickets.
-    Uses the first rile/view
   */
   _getRuleId: function(companyId) {
     if (this.ruleId === undefined) {
       try {
         var xhr = this._callZendesk(this._getViewsURL(companyId));
         if (xhr.status == "200") {
-          var views = JSON.parse(xhr.responseText)["views"];
-          this.ruleId = views[0]["id"];
-          return this.ruleId;
+          this.ruleId = ZendeskHelpers.RuleSelector.select(JSON.parse(xhr.responseText)["views"]);
         } else {
           throw "Zendesk views not available. Status: " + xhr.status;  
         }
@@ -66,9 +70,8 @@ Zendesk = {
         console.log(err);
         return "871014"; // "My unsolved tickets"
       }
-    } else {
-      return this.ruleId;
     }
+    return this.ruleId;
   },
  
   initFromForm: function(form) {
@@ -100,6 +103,21 @@ Zendesk = {
     catch(error) {
       console.log(error);
       return "unknown";
+    }
+  },
+};
+
+ZendeskHelpers = {
+  RuleSelector: {
+    select: function(views) {
+      var regex = /SupportNotifications/;
+      var viewId = views[0].id; //Default
+      views.forEach(function (view){
+        if(regex.test(view.title)) {
+          viewId = view.id;
+        }
+      });
+      return viewId;
     }
   }
 };

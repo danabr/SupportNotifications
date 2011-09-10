@@ -1,3 +1,6 @@
+Version 1.0.2 (2011-09-10):
+* Use "SupportNotifications" rule if available.
+
 Verson 1.0.1:
 * Obtain rule/view id to use from Zendesk (Issue #1, christianaj).
 * Do not schedule status update before logging in
