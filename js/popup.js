@@ -1,4 +1,4 @@
-function initData() {
+document.addEventListener("DOMContentLoaded", function() {
   var bg = chrome.extension.getBackgroundPage();
   var latestTickets = document.getElementById("latest_tickets");
   for(var providerName in bg.SupportNotifications.providers) {
@@ -8,7 +8,7 @@ function initData() {
       var ticketCount =  bg.Tickets[providerName].total;
     }
     var container = document.createElement("div");
-    if (provider.enabled) {      
+    if (provider.enabled) {
       var container = document.createElement("div");
       var h = document.createElement("h3");
       var providerLink = document.createElement("a");
@@ -29,18 +29,18 @@ function initData() {
       }
       latestTickets.appendChild(container);
     }
-    
-   
+
+
   }
-  
+
   var optionsLink = document.getElementById("options_link");
   optionsLink.href = chrome.extension.getURL("options.html");
-  
+
   var updateLink = document.getElementById("update_link");
   var status = document.getElementById("status");
   updateLink.onclick = function() {
     status.style.display = "block";
-    
+
     /*
       We need to defer this operation or otherwise
       chrome won't update the display.
@@ -50,4 +50,4 @@ function initData() {
       window.location.reload();
     }, 250);
   }
-}
+});

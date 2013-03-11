@@ -2,11 +2,11 @@
   Javascript for the options page
 */
 
-function init() {
+document.addEventListener("DOMContentLoaded", function() {
   initForms();
   // Dummy notification timer
   notificationTimer = setTimeout(function() {}, 30000);
-}
+});
 
 function initForms() {
   initAuthenticationDetailsForms();

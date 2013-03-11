@@ -1,0 +1,25 @@
+<form id="zendesk">
+  <fieldset>
+    <legend>Freshdesk Authentication details</legend>
+    <p>
+       <input type="checkbox" name="enabled" value="1" {{{checked}}} id="freshdesk_enabled"/>
+       <label for="zendesk_enabled">Enable</label>
+    </p>
+    <p>
+      <label for="freshdesk_company_id">Company ID:</label> <br/>
+      <input type="text" name="company_id" value="{{{companyId}}}" id="freshdesk_company_id"/>
+    </p>
+    <p>
+      <label for="freshdesk_username">Username:</label><br/>
+      <input type="text" name="username" value="{{{username}}}" id="freshdesk_username"/>
+    </p>
+    <p>
+      <label for="freshdesk_password">Password:</label> <br/>
+      <input type="password" name="password" value="" id="freshdesk_password"/>
+    </p>
+    <p>
+      <input type="submit" name="submit_button" value="Save" />
+      <input type="button" name="test_button" value="Test" />
+    </p>
+  </fieldset>
+</form>

@@ -4,7 +4,7 @@
 
 // Persistent
 SupportNotifications = {
-  version: "1.0.0",
+  version: "1.1.0",
   providers: {},
   Notifications: {
     interval: 1,
@@ -99,7 +99,7 @@ function _updateProviderStatus(providerName, provider) {
   var i = tickets.length;
   while(i--) {
     var ticket = tickets[i];
-    if (ticket.created_at > lastTicketCreated) {
+    if (new Date(ticket.created_at) > new Date(lastTicketCreated)) {
       if(SupportNotifications.Notifications.notifications_on) {
         newTickets = true;
         _notifyAboutTicket(provider, ticket);
