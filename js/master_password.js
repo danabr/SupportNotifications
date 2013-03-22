@@ -16,4 +16,12 @@ document.addEventListener("DOMContentLoaded", function() {
     return false;
   }
   form.master_password.focus();
+
+  var resetLink = document.getElementById("reset_link");
+  resetLink.addEventListener("click", function() {
+    if (confirm("This will delete all your saved data, and allow you to specify" +
+                " a new master password. Are you sure you want to continue?")) {
+      bg.resetConfig();
+    }
+  }, false);
 });

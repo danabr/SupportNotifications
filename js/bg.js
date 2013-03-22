@@ -22,6 +22,13 @@ SupportNotifications = {
 // Non-persistent
 Tickets = {};
 
+
+// Remove everything from local storage so that a new master password can be
+// selected and the extension reconfigured.
+function resetConfig() {
+  localStorage.clear();
+}
+
 // Load from local storage
 function loadConfig(masterPassword) {
   if(localStorage.data !== undefined) {
