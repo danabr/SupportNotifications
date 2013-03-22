@@ -1,6 +1,6 @@
 SupportNotifications.providers.Freshdesk =
     new SupportNotifications.TicketProvider("Freshdesk",
-    {password: "", username: "", companyId: "company"});
+    {password: "", username: "", companyId: "company", filterName: "new_my_open"});
 
 Freshdesk = {
   _callFreshdesk: function(url, username, password) {
@@ -12,19 +12,23 @@ Freshdesk = {
     return xhr;
   },
 
-  afterLoad: function() { },
+  afterLoad: function() {
+    if (this.filterName == null || this.filterName == undefined || this.filterName == "")
+      this.filterName = "new_my_open"
+  },
 
   // Returns template data for the authentication form
   formData: function() {
     return {
       companyId: this.companyId,
       checked: (this.enabled ? "checked=\"checked\"" : ""),
-      username: this.username
+      username: this.username,
+      filterName: this.filterName
     };
   },
 
   getTicketData: function() {
-    var ticketsURL = this.getTicketsURL().replace(/\?.+$/, ".json?filter_name=\"new_my_open\"");
+    var ticketsURL = this.getTicketsURL().replace(/\?.+$/, ".json?filter_name=" + this.filterName);
     console.log("Tickets URL: " + ticketsURL);
     var xhr = this._callFreshdesk(ticketsURL);
     var tickets = JSON.parse(xhr.responseText).sort(function(a, b) {
@@ -43,7 +47,7 @@ Freshdesk = {
 
   getTicketsURL: function(companyId) {
     var cmp = companyId || this.companyId;
-    return "http://" + cmp + ".freshdesk.com/helpdesk/tickets?filter_name=new_my_open"
+    return "http://" + cmp + ".freshdesk.com/helpdesk/tickets?filter_name=" + this.filterName;
   },
 
   initFromForm: function(form) {
@@ -51,6 +55,7 @@ Freshdesk = {
     this.companyId = form.company_id.value;
     this.username = form.username.value;
     this.password = form.password.value;
+    this.filterName = form.filter_name.value;
   },
 
   /*

@@ -10,6 +10,10 @@
       <input type="text" name="company_id" value="{{{companyId}}}" id="freshdesk_company_id"/>
     </p>
     <p>
+      <label for="freshdesk_filter_name">Filter name:</label> <br/>
+      <input type="text" name="filter_name" value="{{{filterName}}}" id="freshdesk_filter_name"/>
+    </p>
+    <p>
       <label for="freshdesk_username">Username:</label><br/>
       <input type="text" name="username" value="{{{username}}}" id="freshdesk_username"/>
     </p>
