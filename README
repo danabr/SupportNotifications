@@ -7,6 +7,12 @@ Currently supported services:
   Freshdesk
   
 Feel free to suggest support for other help desk services.
+
+Maintenance
+-----------------------
+I no longer use SupportNotifications myself. I therefore look for someone else
+to volounteer to maintain the extension. Please contact me on Github if you're
+interested.
   
 Security considerations
 ------------------------
@@ -16,8 +22,10 @@ are available in clear text in the extensions memory. Anyone accessing your
 computer after you have logged in with your master password can thus find your
 usernames, passwords. You are hereby warned.
 
-TODO:
+TODO
+--------------
   * Present errors in a nice way
+  * Go async.
   
 Getting Started
 ---------------

@@ -1,6 +1,10 @@
 SupportNotifications.providers.Zendesk = 
     new SupportNotifications.TicketProvider("Zendesk",
-    {password: "", username: "", companyId: "company"});
+      { password: ""
+        , username: ""
+        , companyId: "company"
+        , protocol: "http"
+      });
 
 Zendesk = {
   _callZendesk: function(url, username, password) {
@@ -12,18 +16,17 @@ Zendesk = {
   },
   
   afterLoad: function() {
-    // This is to force updates of this property
-    // for all < 1.0.2 users. Should be safe to remove
-    // it 1 month after the 1.0.2 release date.
-    this.ruleId = undefined;
+    if (this.protocol != "https")
+      this.protocol = "http"
   },
 
   // Returns template data for the authentication form
   formData: function() {
     return {
       companyId: this.companyId,
-      checked: (this.enabled ? "checked=\"checked\"" : ""),
-      username: this.username
+      checked: this.enabled ? "checked" : "",
+      username: this.username,
+      use_https: this.protocol == "https" ? "checked" : ""
     };
   },
 
@@ -40,26 +43,28 @@ Zendesk = {
   },
 
   getTicketURL: function(ticket) {
-    return "http://" + this.companyId + ".zendesk.com/tickets/" + ticket.nice_id;
+    return this.protocol + "://" + this.companyId + ".zendesk.com/tickets/" + ticket.nice_id;
   },
   
-  getTicketsURL: function(companyId) {
+  getTicketsURL: function(protocol, companyId) {
     var cmp = companyId || this.companyId;
-    return "http://" + cmp + ".zendesk.com/rules/" + this._getRuleId(cmp);
+    var prot = protocol || this.protocol;
+    return prot + "://" + cmp + ".zendesk.com/rules/" + this._getRuleId(prot, cmp);
   },
 
-  _getViewsURL: function(companyId) {
+  _getViewsURL: function(protocol, companyId) {
     var cmp = companyId || this.companyId;
-    return "http://" + cmp + ".zendesk.com/views";
+    var prot = protocol || this.protocol;
+    return prot + "://" + cmp + ".zendesk.com/views";
   },
 
   /*
     Returns the rule to use for checking for new tickets.
   */
-  _getRuleId: function(companyId) {
+  _getRuleId: function(protocol, companyId) {
     if (this.ruleId === undefined) {
       try {
-        var xhr = this._callZendesk(this._getViewsURL(companyId));
+        var xhr = this._callZendesk(this._getViewsURL(protocol, companyId));
         if (xhr.status == "200") {
           this.ruleId = ZendeskHelpers.RuleSelector.select(JSON.parse(xhr.responseText)["views"]);
         } else {
@@ -79,6 +84,7 @@ Zendesk = {
     this.companyId = form.company_id.value;
     this.username = form.username.value;
     this.password = form.password.value;
+    this.protocol = form.use_https.checked ? "https" : "http";
   },
 
   /*
@@ -89,7 +95,8 @@ Zendesk = {
     var companyId = form.company_id.value;
     var username = form.username.value;
     var password = form.password.value;
-    var url = this._getViewsURL(companyId);
+    var protocol = form.use_https.checked ? "https" : "http";
+    var url = this._getViewsURL(protocol, companyId);
     try {
       var xhr = this._callZendesk(url, username, password);
       if(xhr.status === 200) {

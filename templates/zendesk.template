@@ -6,6 +6,10 @@
        <label for="zendesk_enabled">Enable</label>
     </p>
     <p>
+       <input type="checkbox" name="use_https" value="1" {{{use_https}}} id="zendesk_use_https"/>
+       <label for="zendesk_use_https">Use HTTPS</label>
+    </p>
+    <p>
       <label for="zendesk_company_id">Company ID:</label> <br/>
       <input type="text" name="company_id" value="{{{companyId}}}" id="zendesk_company_id"/>
     </p>

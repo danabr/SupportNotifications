@@ -1,35 +1,40 @@
 SupportNotifications.providers.Freshdesk =
     new SupportNotifications.TicketProvider("Freshdesk",
-    {password: "", username: "", companyId: "company", filterName: "new_my_open"});
+      { password: ""
+      , username: ""
+      , companyId: "company"
+      , filterName: "new_my_open"
+      , protocol: "http"
+      });
 
 Freshdesk = {
   _callFreshdesk: function(url, username, password) {
     var xhr = new XMLHttpRequest();
-    console.log("GET " + url);
     xhr.open("GET", url, false,
       username || this.username, password || this.password);
     xhr.send();
     return xhr;
   },
 
-  afterLoad: function() {
-    if (this.filterName == null || this.filterName == undefined || this.filterName == "")
+  afterLoad: function() { if (this.filterName == null || this.filterName == undefined || this.filterName == "")
       this.filterName = "new_my_open"
+    if (this.protocol != "https")
+      this.protocol = "http"
   },
 
   // Returns template data for the authentication form
   formData: function() {
     return {
       companyId: this.companyId,
-      checked: (this.enabled ? "checked=\"checked\"" : ""),
+      checked: this.enabled ? "checked" : "",
       username: this.username,
-      filterName: this.filterName
+      filterName: this.filterName,
+      use_https: this.protocol == "https" ? "checked" : ""
     };
   },
 
   getTicketData: function() {
     var ticketsURL = this.getTicketsURL().replace(/\?.+$/, ".json?filter_name=" + this.filterName);
-    console.log("Tickets URL: " + ticketsURL);
     var xhr = this._callFreshdesk(ticketsURL);
     var tickets = JSON.parse(xhr.responseText).sort(function(a, b) {
       if(a.created_at < b.created_at) {
@@ -42,12 +47,14 @@ Freshdesk = {
   },
 
   getTicketURL: function(ticket) {
-    return "http://" + this.companyId + ".freshdesk.com/helpdesk/tickets/" + ticket.display_id;
+    return this.protocol + "://" + this.companyId +
+            ".freshdesk.com/helpdesk/tickets/" + ticket.display_id;
   },
 
-  getTicketsURL: function(companyId) {
+  getTicketsURL: function(protocol, companyId) {
     var cmp = companyId || this.companyId;
-    return "http://" + cmp + ".freshdesk.com/helpdesk/tickets?filter_name=" + this.filterName;
+    var prot = protocol || this.protocol;
+    return prot + "://" + cmp + ".freshdesk.com/helpdesk/tickets?filter_name=" + this.filterName;
   },
 
   initFromForm: function(form) {
@@ -56,6 +63,7 @@ Freshdesk = {
     this.username = form.username.value;
     this.password = form.password.value;
     this.filterName = form.filter_name.value;
+    this.protocol = form.use_https.checked ? "https" : "http";
   },
 
   /*
@@ -66,7 +74,8 @@ Freshdesk = {
     var companyId = form.company_id.value;
     var username = form.username.value;
     var password = form.password.value;
-    var url = this.getTicketsURL(companyId);
+    var protocol = form.use_https.checked ? "https" : "http";
+    var url = this.getTicketsURL(protocol, companyId);
     try {
       var xhr = this._callFreshdesk(url, username, password);
       if(xhr.status === 200) {

@@ -3,7 +3,11 @@
     <legend>Freshdesk Authentication details</legend>
     <p>
        <input type="checkbox" name="enabled" value="1" {{{checked}}} id="freshdesk_enabled"/>
-       <label for="zendesk_enabled">Enable</label>
+       <label for="freshdesk_enabled">Enable</label>
+    </p>
+    <p>
+       <input type="checkbox" name="use_https" value="1" {{{use_https}}} id="freshdesk_use_https"/>
+       <label for="freshdesk_use_https">Use HTTPS</label>
     </p>
     <p>
       <label for="freshdesk_company_id">Company ID:</label> <br/>

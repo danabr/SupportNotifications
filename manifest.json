@@ -1,12 +1,12 @@
 {
   "name": "Support Notifications",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "manifest_version": 2,
   "description": "Notifies about new tickets in Zendesk, GetSatisfaction and Freshdesk",
   "permissions": ["notifications",
                   "http://*.zendesk.com/", "https://*.zendesk.com/",
                   "http://api.getsatisfaction.com/",
-                  "http://*.freshdesk.com/"],
+                  "http://*.freshdesk.com/", "https://*.freshdesk.com/"],
   "background": {
     "page": "bg.html",
     "persistent": true

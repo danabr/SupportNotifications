@@ -1,3 +1,6 @@
+Version 1.2.0 (2013-10-01):
+* Support HTTPS for Zendesk and Freshdesk.
+
 Verson 1.1.1 (2013-03-22):
 * Allow specifying which Freshdesk filter to use (Issue #6, steddy).
 * Make it possible to reset the extension if you have forgotten the master password.
