@@ -1,3 +1,6 @@
+Version 1.3.0 (2013-12-03):
+* Show notifications on update (optional)
+
 Version 1.2.0 (2013-10-01):
 * Support HTTPS for Zendesk and Freshdesk.
 

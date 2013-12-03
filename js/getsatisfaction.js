@@ -21,14 +21,23 @@ GetSatisfaction = {
     var tickets = newTickets.tickets.concat(plannedTickets.tickets, 
                                             consideredTickets.tickets);
     tickets.sort(function(a, b) {
-      if(a.created_at < b.created_at) {
+      if(a.updated_at < b.updated_at) {
         return 1;
       } else {
         return -1;
       }
     });
+
+    var latest = null;
+    for(index in tickets) {
+      var ticket = tickets[index];
+      if(latest == null || ticket.created_at > latest.created_at) {
+        latest = ticket;
+      }
+    }
+
     var total = newTickets.total + plannedTickets.total + consideredTickets.total;
-    return {tickets: tickets, total: total};
+    return {tickets: tickets, latest: latest, total: tickets.length};
   },
   
   _getTicketsByStatus: function(status) {

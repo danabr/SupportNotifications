@@ -4,12 +4,13 @@
 
 // Persistent
 SupportNotifications = {
-  version: "1.1.0",
+  version: "1.2.0",
   providers: {},
   Notifications: {
     interval: 1,
     sound_on: true,
-    notifications_on: true
+    notifications_on: true,
+    alert_on_update: false
   },
   TicketProvider : function(name, properties) {
     this.name = name;
@@ -91,6 +92,12 @@ function _notifyAboutTicket(provider, ticket) {
   notification.show();
 }
 
+function _notifyIfEnabled(provider, ticket) {
+  if(SupportNotifications.Notifications.notifications_on) {
+    _notifyAboutTicket(provider, ticket);
+  }
+}
+
 function scheduleStatusUpdate() {
   var interval = SupportNotifications.Notifications.interval * 60 * 1000;
   setTimeout(function() { updateStatus(); scheduleStatusUpdate(); }, interval);
@@ -99,24 +106,37 @@ function scheduleStatusUpdate() {
 function _updateProviderStatus(providerName, provider) {
   var ticketData = provider.getTicketData();
   var tickets = ticketData.tickets;
-  //Alert about all new tickets
-  var newTickets = false;
-  var storageVar = providerName + ".lastTicketCreated";
-  var lastTicketCreated = localStorage[storageVar] || _defaultTicketDate();
+  var alertOnUpdate = SupportNotifications.Notifications.alert_on_update;
+  var updatedTickets = false;
+  var createVar = providerName + ".lastTicketCreated";
+  var updateVar = providerName + ".lastTicketUpdated";
+  var lastTicketCreated = localStorage[createVar] || _defaultTicketDate();
+  var lastTicketUpdated = localStorage[updateVar] || new Date().toString();
   var i = tickets.length;
   while(i--) {
     var ticket = tickets[i];
-    if (new Date(ticket.created_at) > new Date(lastTicketCreated)) {
-      if(SupportNotifications.Notifications.notifications_on) {
-        newTickets = true;
-        _notifyAboutTicket(provider, ticket);
-      }
+    var ticketUpdate = false;
+    newlyCreated = new Date(ticket.created_at) > new Date(lastTicketCreated);
+    newlyUpdated = new Date(ticket.updated_at) > new Date(lastTicketUpdated);
+    if (newlyCreated) {
+      updatedTickets = true;
       lastTicketCreated = ticket.created_at;
+      _notifyIfEnabled(provider, ticket);
+    } else if(newlyUpdated) {
+      updatedTickets = true;
+      lastTicketUpdated = ticket.updated_at;
+      if (alertOnUpdate) { _notifyIfEnabled(provider, ticket); }
     }
   }
-  localStorage[storageVar] = lastTicketCreated;
-  Tickets[providerName] = {latestTicket: tickets[0], total: ticketData.total};
-  return newTickets;
+
+  if(lastTicketCreated > lastTicketUpdated) {
+    lastTicketUpdated = lastTicketCreated; // Avoid double alert after create
+  }
+
+  localStorage[createVar] = lastTicketCreated;
+  localStorage[updateVar] = lastTicketUpdated;
+  Tickets[providerName] = {latestTicket: ticketData.latest, total: ticketData.total};
+  return updatedTickets;
 }
 
 function updateStatus() {

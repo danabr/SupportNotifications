@@ -58,6 +58,11 @@ function initNotificationsForm() {
   var notifications = bg.SupportNotifications.Notifications;
   form.display_notifications.checked = notifications.notifications_on;
   form.play_sound.checked = notifications.sound_on;
+  if (notifications.alert_on_update) {
+    form.notify_on[1].checked = true;
+  } else {
+    form.notify_on[0].checked = true;
+  }
   var interval = notifications.interval.toString();
   for (var i = 0, l = form.update_interval.length; i < l; i++) {
     if (form.update_interval[i].value == interval) {
@@ -69,6 +74,7 @@ function initNotificationsForm() {
     notifications.notifications_on = form.display_notifications.checked;
     notifications.sound_on = form.play_sound.checked;
     notifications.interval = form.update_interval[form.update_interval.selectedIndex].value;
+    notifications.alert_on_update = form.notify_on[1].checked;
     saveConfig();
     return false;
   }

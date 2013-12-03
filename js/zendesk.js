@@ -33,13 +33,21 @@ Zendesk = {
   getTicketData: function() {
     var xhr = this._callZendesk(this.getTicketsURL());
     var tickets = JSON.parse(xhr.responseText).sort(function(a, b) {
-      if(a.created_at < b.created_at) {
+      if(a.updated_at < b.updated_at) {
         return 1;
       } else {
         return -1;
       }
     });
-    return {tickets: tickets, total: tickets.length};
+
+    var latest = null;
+    for(index in tickets) {
+      var ticket = tickets[index];
+      if(latest == null || ticket.created_at > latest.created_at) {
+        latest = ticket;
+      }
+    }
+    return {tickets: tickets, latest: latest, total: tickets.length};
   },
 
   getTicketURL: function(ticket) {
