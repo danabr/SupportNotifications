@@ -107,7 +107,7 @@ function _updateProviderStatus(providerName, provider) {
   var ticketData = provider.getTicketData();
   var tickets = ticketData.tickets;
   var alertOnUpdate = SupportNotifications.Notifications.alert_on_update;
-  var updatedTickets = false;
+  var playSound = false;
   var createVar = providerName + ".lastTicketCreated";
   var updateVar = providerName + ".lastTicketUpdated";
   var lastTicketCreated = localStorage[createVar] || _defaultTicketDate();
@@ -119,24 +119,25 @@ function _updateProviderStatus(providerName, provider) {
     newlyCreated = new Date(ticket.created_at) > new Date(lastTicketCreated);
     newlyUpdated = new Date(ticket.updated_at) > new Date(lastTicketUpdated);
     if (newlyCreated) {
-      updatedTickets = true;
+      playSound = true;
       lastTicketCreated = ticket.created_at;
+      if(ticket.created_at > lastTicketUpdated) {
+        lastTicketUpdated = ticket.created_at; // Avoid double alert after create
+      }
       _notifyIfEnabled(provider, ticket);
     } else if(newlyUpdated) {
-      updatedTickets = true;
       lastTicketUpdated = ticket.updated_at;
-      if (alertOnUpdate) { _notifyIfEnabled(provider, ticket); }
+      if (alertOnUpdate) {
+        playSound = true;
+        _notifyIfEnabled(provider, ticket);
+      }
     }
-  }
-
-  if(lastTicketCreated > lastTicketUpdated) {
-    lastTicketUpdated = lastTicketCreated; // Avoid double alert after create
   }
 
   localStorage[createVar] = lastTicketCreated;
   localStorage[updateVar] = lastTicketUpdated;
   Tickets[providerName] = {latestTicket: ticketData.latest, total: ticketData.total};
-  return updatedTickets;
+  return playSound;
 }
 
 function updateStatus() {
@@ -154,6 +155,7 @@ function updateStatus() {
       }
       catch(err) {
         errors = true;
+        console.log((new Error()).stack);
         console.log(err); // Provider not available?
       }
     }

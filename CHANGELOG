@@ -1,3 +1,7 @@
+Version 1.3.1 (2013-12-03):
+* A few bug fixes for notify on update.
+* Make it more clear that creations are counted as updates.
+
 Version 1.3.0 (2013-12-03):
 * Show notifications on update (optional)
 
